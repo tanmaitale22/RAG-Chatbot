@@ -80,6 +80,35 @@ function getRelevantChunks(query, chunks) {
     .slice(0, 3)
 }
 
+function renderMessageContent(content) {
+  const blocks = content.split(/\n{2,}/).filter(Boolean)
+
+  return blocks.map((block, index) => {
+    const lines = block.split('\n').filter(Boolean)
+
+    if (lines.every((line) => line.trim().startsWith('- '))) {
+      return (
+        <ul key={`${block}-${index}`} className="message-bullets">
+          {lines.map((line, lineIndex) => (
+            <li key={`${line}-${lineIndex}`}>{line.replace(/^- /, '').trim()}</li>
+          ))}
+        </ul>
+      )
+    }
+
+    return (
+      <p key={`${block}-${index}`} className="message-paragraph">
+        {lines.map((line, lineIndex) => (
+          <span key={`${line}-${lineIndex}`}>
+            {lineIndex > 0 ? <br /> : null}
+            {line}
+          </span>
+        ))}
+      </p>
+    )
+  })
+}
+
 function App() {
   const [messages, setMessages] = useState([initialMessage])
   const [input, setInput] = useState('')
@@ -258,7 +287,7 @@ function App() {
             {messages.map((message) => (
               <article key={message.id} className={`message ${message.role}`}>
                 <strong>{message.role === 'user' ? 'You' : 'Assistant'}</strong>
-                <p>{message.content}</p>
+                <div className="message-content">{renderMessageContent(message.content)}</div>
               </article>
             ))}
 

@@ -147,9 +147,31 @@
   font-size: 0.88rem;
 }
 
-.message p {
+.message-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.message-content p,
+.message-content ul {
   margin: 0;
   white-space: pre-wrap;
+}
+
+.message-content p {
+  line-height: 1.6;
+}
+
+.message-content ul {
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.message-content li {
+  line-height: 1.5;
 }
 
 .message.user {
